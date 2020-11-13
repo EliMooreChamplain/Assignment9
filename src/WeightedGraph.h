@@ -42,10 +42,10 @@
 using namespace std;
 
 namespace csi281 {
-    
-    // V is the type of the vertices
     // W is the type of the weights
     template<typename V, typename W>
+    
+    // V is the type of the vertices
     class WeightedGraph {
     public:
         // Add a vertex to the graph
@@ -126,8 +126,26 @@ namespace csi281 {
             // this is different than the order from neighborsWithWeights()
             priority_queue<pair<W, V>, vector<pair<W, V>>, greater<pair<W, V>>> frontier = priority_queue<pair<W, V>, vector<pair<W, V>>, greater<pair<W, V>>>();
             frontier.push(make_pair(0, start));
-            
-            // YOUR CODE HERE
+
+            while (!frontier.empty())
+            {
+                auto pair = frontier.top();
+                V u = pair.second();
+                frontier.pop();
+                W dist_u = weights[u];
+                for (auto we : neighborsWithWeights(u))
+                {
+                    bool none = weights.find(we.first()) == weights.end();
+                    W dist_v = weights.find(we.first());
+                    if (none || dist_v > we.second() + dist_u)
+                    {
+                        weights[we.first()] = we.second() + dist_u;
+                        parents[we.first()] = u;
+                        frontier.push(make_pair(we.first(), we.second() + dist_u));
+                    }
+                }
+            }
+
             // NOTE: You must use the constructs defined at
             // the beginning of this method in your code.
             // NOTE: Because the majority of the grade is based on the
