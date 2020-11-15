@@ -130,18 +130,18 @@ namespace csi281 {
             while (!frontier.empty())
             {
                 auto pair = frontier.top();
-                V u = pair.first;
+                V u = pair.second;
                 frontier.pop();
                 W dist_u = weights[u];
                 for (auto we : neighborsWithWeights(u))
                 {
                     bool none = weights.find(we.first) == weights.end();
-                    W dist_v = weights.find(we.first);
-                    if (none || dist_v > we.first + dist_u)
+                    W dist_v = weights[we.first];
+                    if (none || dist_v > we.second + dist_u)
                     {
                         weights[we.first] = we.second + dist_u;
                         parents[we.first] = u;
-                        frontier.push(make_pair(we.first, we.second + dist_u));
+                        frontier.push(make_pair(we.second + dist_u, we.first));
                     }
                 }
             }

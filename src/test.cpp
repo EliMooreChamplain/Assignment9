@@ -165,7 +165,47 @@ TEST_CASE( "dijkstra() cityGraph2 Test", "[dijksta]" ) {
     }
 }
 
-// YOUR CODE HERE
+TEST_CASE("dijkstra() cityGraph3 Test", "[dijksta]") {
+    WeightedGraph<int, int> test3 = WeightedGraph<int, int>();
+    test3.addEdge(1, 2, 29);
+    test3.addEdge(1, 5, 34);
+    test3.addEdge(1, 3, 48);
+    test3.addEdge(2, 5, 10);
+    test3.addEdge(3, 4, 14);
+    test3.addEdge(4, 5, 12);
+    test3.addEdge(5, 6, 15);
+    test3.addEdge(6, 7, 10);
+    test3.addEdge(7, 8, 25);
+    test3.addEdge(5, 9, 52);
+    test3.addEdge(9, 8, 5);
+    test3.addEdge(8, 11, 9);
+    test3.addEdge(10, 11, 20);
+    test3.addEdge(4, 10, 18);
+    test3.addEdge(10, 13, 10);
+    test3.addEdge(3, 12, 20);
+    test3.addEdge(12, 13, 15);
+    test3.addEdge(10, 14, 13);
+    test3.addEdge(5, 10, 10);
+    test3.addEdge(14, 9, 9);
+
+    auto resultPair = test3.dijkstra(3);
+
+    auto parentResults = resultPair.first;
+    auto weightResults = resultPair.second;
+
+    CHECK(weightResults[8] == 59);
+    CHECK(weightResults[11] == 52);
+    CHECK(weightResults[6] == 41);
+    CHECK(weightResults[14] == 45);
+
+    auto path = test3.pathMapToPath(parentResults, 8);
+
+    printPath(path);
+    CHECK(path.size() == 6);
+    CHECK(path.front() == 3);
+    CHECK(path.back() == 8);
+
+}
 // ADD YOUR OWN TEST CASE
 // Prove that dijkstra() works correctly in your own test case,
 // using the methods of WeightedGraph.
